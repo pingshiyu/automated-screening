@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# folders with large files unsuitable for github
+model_gridsearch/
+molecules/
+output/
+

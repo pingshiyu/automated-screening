@@ -1,2 +1,2 @@
 # automated-screening
-Code for the manuscript: "A Novel Automated Screening Method For Combinatorially Generated Small Molecules"
+Scripts, and notebooks for the manuscript: "A Novel Automated Screening Method For Combinatorially Generated Small Molecules"
