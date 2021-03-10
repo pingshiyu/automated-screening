@@ -1,4 +1,4 @@
-from dg_functions import chemspace_root, chemspace_paths, evaluate_conformation, isomer_paths
+from dg_functions import chemspace_root, chemspace_paths, evaluate_conformation
 
 # chemistry toolkit
 from rdkit import Chem
@@ -116,7 +116,7 @@ def parallel_mols_dg_errors(chemspace, attempts=3, threads=None, verbose=True, u
         return None, None, None
 
 if __name__ == '__main__':
-    chemspaces_to_calculate = ['c6h6', '125_56k', 'gdb_50k', 'pubchem_45k', 'chembl_50k', '125_338k']
+    chemspaces_to_calculate = ['c5h6']#['c6h6', '125_56k', 'gdb_50k', 'pubchem_45k', 'chembl_50k', '125_338k']
 
     for name in chemspaces_to_calculate:
         logging.info(f'Computing chemspace: {name}')

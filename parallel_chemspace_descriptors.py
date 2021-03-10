@@ -1,4 +1,4 @@
-from dg_functions import chemspace_paths, isomer_paths
+from dg_functions import chemspace_paths
 from indices import all_indices, all_feature_vectors
 
 descriptor_names, descriptors = all_indices()
@@ -25,6 +25,19 @@ logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 def initialize_counter(counter):
     global mol_counter
     mol_counter = counter
+
+def calc_feature_vectors(mol, feature_vectors):
+    '''
+    Compute all the descriptors which outputs a vector `feature_vectors` for
+        a molecule `mol`.
+    Returns a list of all of the entries computed
+    Input:
+        mol: RDKit molecule
+        feature_vectors: list of functions, taking in an RDKit molecule and
+            outputting a vector of values
+    '''
+    return np.concatenate([feature_vector(mol)
+                           for feature_vector in feature_vectors])
 
 def calc_descriptors(mol, descs):
     '''
@@ -93,7 +106,7 @@ def parallel_mols_features(chemspace, threads=None, use_counter=True, verbose=Tr
     return np.array(mol_features), invalid_mols
 
 if __name__ == '__main__':
-    chemspaces_to_calculate = ['c6h6', 'gdb_50k', 'gdb_100k', '125_56k', '125_113k', '125_338k', 'pubchem_45k', 'pubchem_90k', 'chembl_50k', 'chembl_100k']
+    chemspaces_to_calculate = ['c5h6']#['c6h6', 'gdb_50k', 'gdb_100k', '125_56k', '125_113k', '125_338k', 'pubchem_45k', 'pubchem_90k', 'chembl_50k', 'chembl_100k']
 
     for name in chemspaces_to_calculate:
         logging.info(f'Computing chemspace: {name}')
