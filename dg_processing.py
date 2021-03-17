@@ -236,3 +236,41 @@ def avg_corr(idx, corr):
     `corr`.
     '''
     return corr.iloc[idx].abs().mean()
+
+def nan_columns(df):
+    '''
+    Find columns of `df` where there are `NaN` entries
+    '''
+    nan_loc_row, nan_loc_col = np.where(df.isnull())
+    cols_with_nan = [df.columns[i] for i in set(nan_loc_col)]
+    return cols_with_nan
+
+def constant_columns(df):
+    '''
+    Find columns of `df` where all entries are constant
+    '''
+    constant_indices = df.columns[(df == df.iloc[0]).all()]
+    return list(constant_indices)
+
+def collinear_columns(df):
+    '''
+    Find columns of `df` with high collinearity
+    '''
+    correlation = df.corr()
+    current_columns = df.columns
+
+    correlated_xid, correlated_yid = np.where((correlation < -0.95) | (correlation > 0.95))
+    correlated_pairs = [[row, col] for row, col in zip(correlated_xid, correlated_yid)
+                       if row < col]
+    # Remove one of the correlated pairs from the matrix:
+    correlated_indices_to_remove = []
+    while correlated_pairs:
+        index_a_id, index_b_id = correlated_pairs.pop()
+
+        # the id removed in the one that is more correlated on average
+        removed_id = index_a_id if avg_corr(index_a_id, correlation) > avg_corr(index_b_id, correlation) else index_b_id
+        correlated_pairs = [[row, col] for row, col in correlated_pairs
+                           if (row != removed_id) and (col != removed_id)]
+        correlated_indices_to_remove.append(current_columns[removed_id])
+        
+    return correlated_indices_to_remove
