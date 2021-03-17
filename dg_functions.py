@@ -330,7 +330,7 @@ def mols_dg_errors(chemspace, retry_failed=True, retry_attempts=3):
                 # failed again:
                 if failure == -1:
                     j += 1
-                    continue;
+                    continue
 
                 # success:
                 failed_n_times = False
